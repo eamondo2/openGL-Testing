@@ -107,6 +107,7 @@ public class ShitMinecraft {
     //also calculates physics (eventually) and generally does all the heavy lifting
     //most of this will be calls to other functions
     public static void logic(){
+	    Display.sync(60);
         if (Display.isCloseRequested()) {
             closeRequested = true;
         }
