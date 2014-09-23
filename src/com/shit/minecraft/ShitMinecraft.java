@@ -11,8 +11,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 /**
- * Created by eamon_000 on 9/17/2014.
- * credit to Eamon, Adam, Reuben, Zach
+ * Created by eamon_000(and more so REUBEN) on 9/17/2014.
+ * credit to Eamon, Adam, REUBEN, Zach
  */
 public class ShitMinecraft {
     public static boolean closeRequested = false;
