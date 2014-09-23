@@ -9,6 +9,10 @@ You can take this project in any way that you would want to...
 
 Future Plans:
 
+-Finish camera control
+
+--implement collision code for player
+
 -Make it NOT Shitty
 
 -Beautiful landscape
