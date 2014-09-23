@@ -8,6 +8,7 @@ There are millions of functions of this program, as it allows for the creative j
 You can take this project in any way that you would want to...
 
 Future Plans:
+
 -Make it NOT Shitty
 
 -Beautiful landscape
@@ -37,4 +38,5 @@ Future Plans:
 -get money
 
 -fuck bitches
+
 
