@@ -20,7 +20,7 @@ public class ShitMinecraft {
     public static float angle = 0f;
 
     public static void main(String[] args){
-		System.out.println("Hello World");
+		System.out.println("Hello Woldr");
         run();
         cleanup();
 
