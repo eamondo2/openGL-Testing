@@ -52,7 +52,7 @@ public class ShitMinecraft {
     public static void init(){
         try {
             Display.setDisplayMode(new DisplayMode(640, 400));
-            Display.setTitle("ShitMinecraft");
+            Display.setTitle("ShittyMinecraft");
 
             Display.create();
             Mouse.setGrabbed(true);
