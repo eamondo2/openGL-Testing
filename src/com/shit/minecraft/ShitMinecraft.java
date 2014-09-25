@@ -23,6 +23,7 @@ public class ShitMinecraft {
 		System.out.println("Hello Woldr");
         System.out.println("Reuben cant spell...");
         System.out.println("Zach forgot a semicolon");
+        System.out.println("SHUT UP BITCHES");
         run();
         cleanup();
 
