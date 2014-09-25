@@ -21,7 +21,8 @@ public class ShitMinecraft {
 
     public static void main(String[] args){
 		System.out.println("Hello Woldr");
-		System.out.println("Reuben cant spell...")
+        System.out.println("Reuben cant spell...");
+        System.out.println("Zach forgot a semicolon");
         run();
         cleanup();
 
