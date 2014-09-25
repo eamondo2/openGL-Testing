@@ -26,9 +26,7 @@ public class ShitMinecraft {
 		System.out.println("Hello Woldr");
         System.out.println("Reuben cant spell...");
         System.out.println("Zach forgot a semicolon");
-        Vector3f tv = new Vector3f(1f, 0f, 0f);
-        Vector3f test = MatrixRotations.uberRot(90f, new Vector3f(0f, 0f, 0f), tv, new Vector3f(0f, 0f, 1f));
-        System.out.println(test.x + " " + test.y + " " + test.z);
+        
         run();
         cleanup();
 
