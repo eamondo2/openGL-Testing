@@ -7,7 +7,7 @@ It is as the name implies.
 
 Future Plans:
 
--Finish camera control
+-Finish camera control [CHECK MARK]
 
 --implement collision code for player
 
