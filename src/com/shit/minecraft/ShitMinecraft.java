@@ -9,6 +9,8 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.util.ArrayList;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
@@ -19,6 +21,7 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class ShitMinecraft {
     public static boolean closeRequested = false;
+    public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
     public static float FOV = 50f;
     public static float angle = 0f;
     public static Player p = new Player(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 0f, 0f), new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f), 0f, 0f, new Vector3f(-5f, 10f, -10f), new Vector3f(-5f, 10f, 0f));
@@ -135,12 +138,36 @@ public class ShitMinecraft {
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             p.strafe(1);
         }
+        if (Mouse.isButtonDown(0)) {
+            //fire a projectile
+            Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), 1f, 500, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z));
+            //f.update();
+            projectiles.add(f);
+            System.out.println("PROJECTILE FIRED");
+
+        }
 
         if (angle < 360) angle += 1f;
         else angle = 0;
+        projectileLogic();
 
     }
 
+    //iterates through projectiles, updates position/passes control to projectiles
+    public static void projectileLogic() {
+        ArrayList<Projectile> tmp = new ArrayList<Projectile>();
+        for (Projectile p : projectiles) {
+            p.update();
+            if (p.destroy) {
+                tmp.add(p);
+            }
+        }
+        for (Projectile p : tmp) {
+            projectiles.remove(p);
+        }
+
+
+    }
     //camera control class
     public static void camera() {
         //needs to poll for mouse position changes, reset mouse position to middle each frame
@@ -167,6 +194,9 @@ public class ShitMinecraft {
 
     public static void render(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        for (Projectile p : projectiles) {
+            p.render();
+        }
         //glLoadIdentity();
 
         //glTranslatef(0f, 0f, -10f);

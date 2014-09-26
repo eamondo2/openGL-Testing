@@ -39,7 +39,7 @@ public class Player {
         this.Xvec.set(MatrixRotations.vectorRot(y, Yvec, Xvec));
         this.Zvec.set(MatrixRotations.vectorRot(y, Yvec, Zvec));
         this.lookV.set(MatrixRotations.vectorRot(y, Yvec, lookV));
-        System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
+        //System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
     }
 
     public void cPitch(float p) {
@@ -48,7 +48,7 @@ public class Player {
         //this.Yvec.set(MatrixRotations.vectorRot(p, Xvec, Yvec));
         this.Zvec.set(MatrixRotations.vectorRot(p, Xvec, Zvec));
         this.lookV.set(MatrixRotations.vectorRot(p, Xvec, lookV));
-        System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
+        //System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
     }
 
     public float getPitch() {
@@ -59,6 +59,13 @@ public class Player {
         return this.yaw;
     }
 
+    public Vector3f getlook() {
+        return this.lookV;
+    }
+
+    public Vector3f getPos() {
+        return this.camPos;
+    }
     //change look point
     public void forward(float inc) {
         Vector3f temp = new Vector3f(lookV.x * inc, lookV.y * inc, lookV.z * inc);
@@ -80,7 +87,7 @@ public class Player {
         camPos.z = camPos.z + temp.z;
     }
     public void lookAt() {
-
+        //System.out.println("CAMPOS" + camPos.x + " " + camPos.y + " " + camPos.z);
         glLoadIdentity();
         //gluLookAt(lookPos.x, lookPos.y, lookPos.z, camPos.x, camPos.y, camPos.z, Yvec.x, Yvec.y, Yvec.z);
         gluLookAt(camPos.x, camPos.y, camPos.z, lookPos.x, lookPos.y, lookPos.z, Yvec.x, Yvec.y, Yvec.z);
