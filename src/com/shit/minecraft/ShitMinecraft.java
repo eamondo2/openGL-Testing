@@ -1,6 +1,5 @@
 package com.shit.minecraft;
 
-import com.shit.minecraft.util.MatrixRotations;
 import com.shit.minecraft.util.Player;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -20,8 +19,9 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class ShitMinecraft {
     public static boolean closeRequested = false;
+    public static float FOV = 50f;
     public static float angle = 0f;
-    public static Player p = new Player(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 0f, 0f), new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f), 0f, 0f, new Vector3f(0f, 0f, -10f), new Vector3f(-5f, 10f, 0f));
+    public static Player p = new Player(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 0f, 0f), new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f), 0f, 0f, new Vector3f(-5f, 10f, -10f), new Vector3f(-5f, 10f, 0f));
     public static void main(String[] args){
 		System.out.println("Hello Woldr");
         System.out.println("Reuben cant spell...");
@@ -42,7 +42,7 @@ public class ShitMinecraft {
     public static void initGL(){
         glMatrixMode(GL11.GL_PROJECTION);
         glLoadIdentity();
-        gluPerspective(50.0f, (float) Display.getWidth() / Display.getHeight(), 0.1f, 200f);
+        gluPerspective(FOV, (float) Display.getWidth() / Display.getHeight(), 0.1f, 200f);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glShadeModel(GL_SMOOTH);
@@ -123,9 +123,19 @@ public class ShitMinecraft {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             closeRequested = true;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            p.forward(-1);
         }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            p.forward(1);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            p.strafe(-1);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            p.strafe(1);
+        }
+
         if (angle < 360) angle += 1f;
         else angle = 0;
 

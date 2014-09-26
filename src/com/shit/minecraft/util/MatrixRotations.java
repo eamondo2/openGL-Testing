@@ -35,23 +35,23 @@ public class MatrixRotations {
         returnVec.z -= PointA.z;
         //determine rotation vector
         float m00 = (costheta + (Uv.x * Uv.x) * (1 - costheta));
-        System.out.println("M00" + m00);
+        //System.out.println("M00" + m00);
         float m01 = (Uv.x * Uv.y * (1 - costheta) - Uv.z * (sintheta));
-        System.out.println("M01" + m01);
+        //System.out.println("M01" + m01);
         float m02 = (Uv.x * Uv.z * (1 - costheta) + Uv.y * sintheta);
-        System.out.println("M02" + m02);
+        //System.out.println("M02" + m02);
         float m10 = (Uv.y * Uv.x * (1 - costheta) + Uv.z * sintheta);
-        System.out.println("M10" + m10);
+        //System.out.println("M10" + m10);
         float m11 = (costheta + (Uv.y * Uv.y) * (1 - costheta));
-        System.out.println("M11" + m11);
+        //System.out.println("M11" + m11);
         float m12 = (Uv.y * Uv.z * (1 - costheta) - Uv.x * sintheta);
-        System.out.println("M12" + m12);
+        //System.out.println("M12" + m12);
         float m20 = (Uv.z * Uv.x * (1 - costheta) - Uv.y * (sintheta));
-        System.out.println("M20" + m20);
+        //System.out.println("M20" + m20);
         float m21 = (Uv.z * Uv.y * (1 - costheta) + Uv.x * (sintheta));
-        System.out.println("M21" + m21);
+        //System.out.println("M21" + m21);
         float m22 = (costheta + (Uv.z * Uv.z) * (1 - costheta));
-        System.out.println("M22" + m22);
+        //System.out.println("M22" + m22);
         //multiply returnVec by Matrix
         //problem code
         float a = returnVec.getX();
@@ -70,28 +70,63 @@ public class MatrixRotations {
         return returnVec;
     }
 
-    public static Vector3f vectorRot(float theta, Vector3f vecA, Vector3f vecB) {
-        Vector3f returnvec = new Vector3f(0f, 0f, 0f);
+    public static Vector3f vectorRot(float theta, Vector3f Uv, Vector3f PointB) {
+
+        Vector3f returnVec = new Vector3f(0f, 0f, 0f);
+        Uv.normalise();
+        PointB.normalise();
+        //calculate theta in radians
         float angrad = (float) Math.toRadians(theta);
-        float costheta = (float) Math.cos(theta);
-        float sintheta = (float) Math.sin(theta);
-        //normalise vectors
-        vecA.normalise();
-        //first step
-        returnvec.x = costheta * vecB.x;
-        returnvec.y = costheta * vecB.y;
-        returnvec.z = costheta * vecB.z;
-
-        returnvec.x += (vecA.x * vecB.x) * sintheta;
-        returnvec.y += (vecA.y * vecB.y) * sintheta;
-        returnvec.z += (vecA.z * vecB.z) * sintheta;
-
-        returnvec.x += (vecA.x * (vecA.x * vecB.x) * (1 - costheta));
-        returnvec.y += (vecA.y * (vecA.y * vecB.y) * (1 - costheta));
-        returnvec.z += (vecA.z * (vecA.z * vecB.z) * (1 - costheta));
+        //calculate cosine and sine of theta
+        float costheta = (float) Math.cos(angrad);
+        float sintheta = (float) Math.sin(angrad);
+        /*
+        Rotation of PointB around PointA about axis represented by Uv
+        R(theta) = costheta+uv.x^2(1-costheta) | uv.x*uv.y(1-costheta)-uv.z(sintheta) | uv.x*uv.z(1-costheta)+uv.y*sintheta
+                   uv.y*uv.x(1-costheta)+uv.z*sintheta | costheta+uv.y^2(1-costheta) | uv.y*uv.z(1-costheta)-uv.x*sintheta
+                   uv.z*uv.x(1-costheta)-uv.y(sintheta) | uv.z*uv.y(1-costheta)+uv.x(sintheta) | costheta+uv.z^2(1-costheta)
+        */
 
 
-        return returnvec;
+        //ensure that Uv is normalized
+        Uv.normalise(Uv);
+        //translate to origin
+        returnVec.x = PointB.getX();
+        returnVec.y = PointB.getY();
+        returnVec.z = PointB.getZ();
+
+        //determine rotation vector
+        float m00 = (costheta + (Uv.x * Uv.x) * (1 - costheta));
+        //System.out.println("M00" + m00);
+        float m01 = (Uv.x * Uv.y * (1 - costheta) - Uv.z * (sintheta));
+        //System.out.println("M01" + m01);
+        float m02 = (Uv.x * Uv.z * (1 - costheta) + Uv.y * sintheta);
+        //System.out.println("M02" + m02);
+        float m10 = (Uv.y * Uv.x * (1 - costheta) + Uv.z * sintheta);
+        //System.out.println("M10" + m10);
+        float m11 = (costheta + (Uv.y * Uv.y) * (1 - costheta));
+        //System.out.println("M11" + m11);
+        float m12 = (Uv.y * Uv.z * (1 - costheta) - Uv.x * sintheta);
+        //System.out.println("M12" + m12);
+        float m20 = (Uv.z * Uv.x * (1 - costheta) - Uv.y * (sintheta));
+        //System.out.println("M20" + m20);
+        float m21 = (Uv.z * Uv.y * (1 - costheta) + Uv.x * (sintheta));
+        //System.out.println("M21" + m21);
+        float m22 = (costheta + (Uv.z * Uv.z) * (1 - costheta));
+        //System.out.println("M22" + m22);
+        //multiply returnVec by Matrix
+        //problem code
+        float a = returnVec.getX();
+        float b = returnVec.getY();
+        float c = returnVec.getZ();
+
+        returnVec.x = ((m00 * a) + (m01 * b) + (m02 * c));
+        returnVec.y = ((m10 * a) + (m11 * b) + (m12 * c));
+        returnVec.z = ((m20 * a) + (m21 * b) + (m22 * c));
+        //translate back from origin
+
+
+        return returnVec;
     }
 
 }

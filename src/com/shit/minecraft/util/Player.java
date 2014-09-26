@@ -35,17 +35,19 @@ public class Player {
 
     public void cYaw(float y) {
         this.yaw += y;
-        this.lookPos = MatrixRotations.uberRot(y, camPos, lookPos, Yvec);
-        //this.Xvec = MatrixRotations.vectorRot(y, this.Yvec, this.Xvec);
-        //this.Zvec = MatrixRotations.vectorRot(y, this.Yvec, this.Zvec);
+        this.lookPos.set(MatrixRotations.uberRot(y, camPos, lookPos, Yvec));
+        this.Xvec.set(MatrixRotations.vectorRot(y, Yvec, Xvec));
+        this.Zvec.set(MatrixRotations.vectorRot(y, Yvec, Zvec));
+        this.lookV.set(MatrixRotations.vectorRot(y, Yvec, lookV));
         System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
     }
 
     public void cPitch(float p) {
         this.pitch += p;
         this.lookPos = MatrixRotations.uberRot(p, this.camPos, this.lookPos, this.Xvec);
-        //this.Yvec = MatrixRotations.vectorRot(p, this.Xvec, this.Yvec);
-        //this.Zvec = MatrixRotations.vectorRot(p, this.Xvec, this.Zvec);
+        //this.Yvec.set(MatrixRotations.vectorRot(p, Xvec, Yvec));
+        this.Zvec.set(MatrixRotations.vectorRot(p, Xvec, Zvec));
+        this.lookV.set(MatrixRotations.vectorRot(p, Xvec, lookV));
         System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
     }
 
@@ -58,6 +60,25 @@ public class Player {
     }
 
     //change look point
+    public void forward(float inc) {
+        Vector3f temp = new Vector3f(lookV.x * inc, lookV.y * inc, lookV.z * inc);
+        lookPos.x = lookPos.x + temp.x;
+        lookPos.y = lookPos.y + temp.y;
+        lookPos.z = lookPos.z + temp.z;
+        camPos.x = camPos.x + temp.x;
+        camPos.y = camPos.y + temp.y;
+        camPos.z = camPos.z + temp.z;
+    }
+
+    public void strafe(float inc) {
+        Vector3f temp = new Vector3f(Xvec.x * inc, Xvec.y * inc, Xvec.z * inc);
+        lookPos.x = lookPos.x + temp.x;
+        lookPos.y = lookPos.y + temp.y;
+        lookPos.z = lookPos.z + temp.z;
+        camPos.x = camPos.x + temp.x;
+        camPos.y = camPos.y + temp.y;
+        camPos.z = camPos.z + temp.z;
+    }
     public void lookAt() {
 
         glLoadIdentity();
