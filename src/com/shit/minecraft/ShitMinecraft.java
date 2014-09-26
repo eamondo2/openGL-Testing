@@ -27,7 +27,7 @@ public class ShitMinecraft {
     public static Player p = new Player(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 0f, 0f), new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f), 0f, 0f, new Vector3f(-5f, 10f, -10f), new Vector3f(-5f, 10f, 0f));
     public static void main(String[] args){
 		System.out.println("Hello Woldr");
-        System.out.println("Reuben cant spell...");
+        System.out.println("Reuben can't spell...");
         System.out.println("Zach forgot a semicolon");
         
         run();
