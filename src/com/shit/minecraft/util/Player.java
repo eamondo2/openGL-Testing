@@ -59,6 +59,14 @@ public class Player {
         return this.yaw;
     }
 
+    public Vector3f getXvec() {
+        return this.Xvec;
+    }
+
+    public Vector3f getYvec() {
+        return this.Yvec;
+    }
+
     public Vector3f getlook() {
         return this.lookV;
     }

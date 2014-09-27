@@ -15,11 +15,16 @@ public class Projectile {
     public int counter = 0;
     public float speed;
     public boolean destroy = false;
+    public float pitch;
+    public float yaw;
+    public Vector3f Xvec;
+    public Vector3f Yvec;
     public Vector3f dir = new Vector3f(0f, 0f, 0f);
 
-    public Projectile(Vector3f dir, float speed, int CUTOFF, Vector3f p) {
+    public Projectile(Vector3f dir, float speed, int CUTOFF, Vector3f p, Vector3f Xvec, Vector3f Yvec, float pitch, float yaw) {
         this.dir = dir;
-
+        this.Xvec = Xvec;
+        this.Yvec = Yvec;
         this.CUTOFF = CUTOFF;
         this.speed = speed;
         this.pos = p;
@@ -35,6 +40,8 @@ public class Projectile {
         //render proj
         glPushMatrix();
         glTranslatef(pos.x, pos.y, pos.z);
+        glRotatef(pitch, Xvec.x, Xvec.y, Xvec.z);
+        glRotatef(yaw, Yvec.x, Yvec.y, Yvec.z);
         GL11.glBegin(GL11.GL_QUADS);
 
         // Front Face

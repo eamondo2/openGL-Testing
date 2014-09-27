@@ -25,6 +25,7 @@ public class ShitMinecraft {
     public static float FOV = 50f;
     public static float angle = 0f;
     public static Player p = new Player(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 0f, 0f), new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f), 0f, 0f, new Vector3f(-5f, 10f, -10f), new Vector3f(-5f, 10f, 0f));
+    public static boolean isPaused = false;
     public static void main(String[] args){
 		System.out.println("Hello Woldr");
         System.out.println("Reuben can't spell...");
@@ -40,6 +41,15 @@ public class ShitMinecraft {
 
     public static void cleanup() {
         Display.destroy();
+    }
+
+    public static void waitabit() {
+        try {
+            Thread.sleep(10);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     //initializes all openGL functions, sets display mode, and enables depth buffers etc
     public static void initGL(){
@@ -87,8 +97,12 @@ public class ShitMinecraft {
 
             Display.update();
             if (Display.isActive()) {
+
                 logic();
-                render();
+
+                if (!isPaused) render();
+                else menuRender();
+
 
             } else {
                 //if the display is not active, then sleep for 100 milliseconds to give the
@@ -106,7 +120,8 @@ public class ShitMinecraft {
 
                 } else {
                     logic();
-                    render();
+                    if (!isPaused) render();
+                    else menuRender();
                 }
             }
 
@@ -117,9 +132,22 @@ public class ShitMinecraft {
     //calls the logical functions, calculating look position, change in movement
     //also calculates physics (eventually) and generally does all the heavy lifting
     //most of this will be calls to other functions
-    public static void logic(){
-	    Display.sync(60);
-        camera();
+    public static void menuRender() {
+
+    }
+
+    public static void pausedInput() {
+        if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+            isPaused = !isPaused;
+            waitabit();
+        }
+    }
+
+    public static void menuLogic() {
+
+    }
+
+    public static void input() {
         if (Display.isCloseRequested()) {
             closeRequested = true;
         }
@@ -140,16 +168,34 @@ public class ShitMinecraft {
         }
         if (Mouse.isButtonDown(0)) {
             //fire a projectile
-            Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), 1f, 500, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z));
+            Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), .5f, 500, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z), new Vector3f(p.getXvec().x, p.getXvec().y, p.getXvec().z), new Vector3f(p.getYvec().x, p.getYvec().y, p.getYvec().z), p.getPitch(), p.getYaw());
             //f.update();
             projectiles.add(f);
             System.out.println("PROJECTILE FIRED");
 
         }
+        if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+            isPaused = !isPaused;
+            waitabit();
+        }
+    }
 
+    public static void logic() {
+        Display.sync(60);
+        if (!isPaused) {
+            camera();
+            input();
+            projectileLogic();
+
+        } else {
+            pausedInput();
+            menuLogic();
+
+        }
+        //not important code
         if (angle < 360) angle += 1f;
         else angle = 0;
-        projectileLogic();
+
 
     }
 
