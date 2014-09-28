@@ -62,7 +62,7 @@ public class ShitMinecraft {
     public static void init(){
         try {
             Display.setDisplayMode(new DisplayMode(640, 400));
-            Display.setTitle("ShittyMinecraft");
+            Display.setTitle("ShittyMinecraft2.0");
 
             Display.create();
             Mouse.setGrabbed(true);
@@ -138,6 +138,7 @@ public class ShitMinecraft {
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             p.strafe(1);
         }
+        
         if (Mouse.isButtonDown(0)) {
             //fire a projectile
             Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), 1f, 500, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z));
