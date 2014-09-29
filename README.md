@@ -4,6 +4,7 @@ This is a collaboration between Zach, Adam, Eamon, and Reuben
 
 It is as the name implies.
 
+Sometimes when I'm alone, I eat my own toenails.
 
 Future Plans:
 

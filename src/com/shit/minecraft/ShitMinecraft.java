@@ -5,6 +5,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -20,8 +21,6 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class ShitMinecraft {
     public static boolean closeRequested = false;
-    public static boolean renderingModeIs2D = false;
-
     public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
     public static float FOV = 50f;
     public static float angle = 0f;
@@ -40,35 +39,13 @@ public class ShitMinecraft {
 
 	}
 
-    public static void enable3D() {
-        if (renderingModeIs2D) {
-            glEnable(GL_DEPTH_TEST);
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            gluPerspective(70.0f, Display.getWidth() / Display.getHeight(), 0.1f, 10000.0f);
-            glMatrixMode(GL_MODELVIEW);
-            glLoadIdentity();
-            renderingModeIs2D = false;
-        }
-    }
-
-    public static void enable2D() {
-        if (!renderingModeIs2D) {
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -1, 1);
-            glMatrixMode(GL_MODELVIEW);
-            glLoadIdentity();
-            renderingModeIs2D = true;
-        }
-    }
     public static void cleanup() {
         Display.destroy();
     }
 
     public static void waitabit() {
         try {
-            Thread.sleep(30);
+            Thread.sleep(10);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -94,7 +71,7 @@ public class ShitMinecraft {
     //initializes display, sets the screen size, and grabs the mouse
     public static void init(){
         try {
-            //Display.setDisplayMode(new DisplayMode(640, 400));
+            Display.setDisplayMode(new DisplayMode(640, 400));
             Display.setTitle("ShittyMinecraft");
 
             Display.create();
@@ -123,7 +100,8 @@ public class ShitMinecraft {
 
                 logic();
 
-                //render();
+                if (!isPaused) render();
+                else menuRender();
 
 
             } else {
@@ -142,8 +120,8 @@ public class ShitMinecraft {
 
                 } else {
                     logic();
-                    //render();
-
+                    if (!isPaused) render();
+                    else menuRender();
                 }
             }
 
@@ -154,7 +132,9 @@ public class ShitMinecraft {
     //calls the logical functions, calculating look position, change in movement
     //also calculates physics (eventually) and generally does all the heavy lifting
     //most of this will be calls to other functions
+    public static void menuRender() {
 
+    }
 
     public static void pausedInput() {
         if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
@@ -198,7 +178,6 @@ public class ShitMinecraft {
             isPaused = !isPaused;
             waitabit();
         }
-
     }
 
     public static void logic() {
@@ -207,14 +186,15 @@ public class ShitMinecraft {
             camera();
             input();
             projectileLogic();
-            render();
 
         } else {
             pausedInput();
             menuLogic();
-            //menurender()
 
         }
+        //not important code
+        if (angle < 360) angle += 1f;
+        else angle = 0;
 
 
     }
@@ -259,16 +239,6 @@ public class ShitMinecraft {
     //also calls many other external functions to render out the scene
 
     public static void render(){
-        //2d Rendering section
-        //enable2D();
-
-
-        enable3D();
-
-
-        //not important code
-        if (angle < 360) angle += 1f;
-        else angle = 0;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for (Projectile p : projectiles) {
             p.render();
@@ -368,10 +338,6 @@ public class ShitMinecraft {
         glVertex3f(0f, 0f, 10f);
         glEnd();
         glPopMatrix();
-        enable2D();
-
-
-
     }
 
 }
