@@ -232,6 +232,7 @@ public class ShitMinecraft {
         float mouseX = Mouse.getDX();
         float mouseY = Mouse.getDY();
         Mouse.setCursorPosition(Display.getWidth() / 2, Display.getHeight() / 2);
+
         p.cYaw((-mouseX * .05f));
         p.cPitch((mouseY * .05f));
         p.lookAt();
