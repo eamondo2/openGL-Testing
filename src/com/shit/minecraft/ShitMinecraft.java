@@ -21,6 +21,7 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class ShitMinecraft {
     public static boolean closeRequested = false;
+    public static boolean nav = false;
     public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
     public static float FOV = 50f;
     public static float angle = 0f;
@@ -166,6 +167,10 @@ public class ShitMinecraft {
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             p.strafe(1);
         }
+        if (Keyboard.isKeyDown(Keyboard.KEY_N)) {
+            nav = true;
+
+        }
         if (Mouse.isButtonDown(0)) {
             //fire a projectile
             Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), .5f, 500, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z), new Vector3f(p.getXvec().x, p.getXvec().y, p.getXvec().z), new Vector3f(p.getYvec().x, p.getYvec().y, p.getYvec().z), p.getPitch(), p.getYaw());
@@ -237,12 +242,22 @@ public class ShitMinecraft {
     //self explanatory. update display, render out shapes etc.
     //will have two render modes, 2d and 3d, for the menus and the general world
     //also calls many other external functions to render out the scene
-
+    public static void navLine() {
+        if (nav) {
+            glBegin(GL_LINES);
+            glColor3f(.5f, 0f, .5f);
+            glVertex3f(p.getPos().x, p.getPos().y - 1, p.getPos().z);
+            glVertex3f(0f, 0f, 0f);
+            glEnd();
+            nav = false;
+        }
+    }
     public static void render(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for (Projectile p : projectiles) {
             p.render();
         }
+        navLine();
         //glLoadIdentity();
 
         //glTranslatef(0f, 0f, -10f);
