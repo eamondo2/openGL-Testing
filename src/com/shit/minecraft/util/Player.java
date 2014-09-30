@@ -35,6 +35,7 @@ public class Player {
 
     public void cYaw(float y) {
         this.yaw += y;
+
         this.lookPos.set(MatrixRotations.uberRot(y, camPos, lookPos, Yvec));
         this.Xvec.set(MatrixRotations.vectorRot(y, Yvec, Xvec));
         this.Zvec.set(MatrixRotations.vectorRot(y, Yvec, Zvec));
@@ -44,13 +45,21 @@ public class Player {
 
     public void cPitch(float p) {
         this.pitch += p;
-        this.lookPos = MatrixRotations.uberRot(p, this.camPos, this.lookPos, this.Xvec);
-        //this.Yvec.set(MatrixRotations.vectorRot(p, Xvec, Yvec));
-        this.Zvec.set(MatrixRotations.vectorRot(p, Xvec, Zvec));
-        this.lookV.set(MatrixRotations.vectorRot(p, Xvec, lookV));
-        //System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
-    }
+        System.out.println("PITCH" + this.pitch);
+        if (this.pitch < -85) {
+            this.pitch = -85;
 
+        } else if (this.pitch > 85) {
+            this.pitch = 85;
+        } else {
+            this.lookPos = MatrixRotations.uberRot(p, this.camPos, this.lookPos, this.Xvec);
+            //this.Yvec.set(MatrixRotations.vectorRot(p, Xvec, Yvec));
+            this.Zvec.set(MatrixRotations.vectorRot(p, Xvec, Zvec));
+            this.lookV.set(MatrixRotations.vectorRot(p, Xvec, lookV));
+            //System.out.println("LOOKPOS" + lookPos.x + " " + lookPos.y + " " + lookPos.z);
+
+        }
+    }
     public float getPitch() {
         return this.pitch;
     }
@@ -87,6 +96,16 @@ public class Player {
 
     public void strafe(float inc) {
         Vector3f temp = new Vector3f(Xvec.x * inc, Xvec.y * inc, Xvec.z * inc);
+        lookPos.x = lookPos.x + temp.x;
+        lookPos.y = lookPos.y + temp.y;
+        lookPos.z = lookPos.z + temp.z;
+        camPos.x = camPos.x + temp.x;
+        camPos.y = camPos.y + temp.y;
+        camPos.z = camPos.z + temp.z;
+    }
+
+    public void elevate(float inc) {
+        Vector3f temp = new Vector3f(Yvec.x * inc, Yvec.y * inc, Yvec.z * inc);
         lookPos.x = lookPos.x + temp.x;
         lookPos.y = lookPos.y + temp.y;
         lookPos.z = lookPos.z + temp.z;

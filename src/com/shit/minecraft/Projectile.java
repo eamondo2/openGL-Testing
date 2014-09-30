@@ -110,7 +110,7 @@ public class Projectile {
     public void update() {
 
 
-        System.out.println("LOOKPOS" + pos.x + " " + pos.y + " " + pos.z);
+        //System.out.println("LOOKPOS" + pos.x + " " + pos.y + " " + pos.z);
         //dir = dir.normalise(dir);
         pos.x -= (dir.x * speed);
         pos.y -= (dir.y * speed);

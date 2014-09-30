@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
 import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.gluOrtho2D;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 /**
@@ -20,6 +21,9 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  *
  */
 public class ShitMinecraft {
+    public static boolean[] keyLifted = new boolean[256];
+
+
     public static boolean closeRequested = false;
     public static boolean nav = false;
     public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -44,14 +48,7 @@ public class ShitMinecraft {
         Display.destroy();
     }
 
-    public static void waitabit() {
-        try {
-            Thread.sleep(10);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
     //initializes all openGL functions, sets display mode, and enables depth buffers etc
     public static void initGL(){
         glMatrixMode(GL11.GL_PROJECTION);
@@ -70,6 +67,28 @@ public class ShitMinecraft {
 
     }
     //initializes display, sets the screen size, and grabs the mouse
+    public static void pushOrtho() {
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        gluOrtho2D(-(Display.getWidth() / 2), Display.getWidth() / 2, Display.getHeight() / 2, -(Display.getHeight() / 2));
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        glDisable(GL_DEPTH_TEST);
+
+
+    }
+
+    public static void popOrtho() {
+        glEnable(GL_DEPTH_TEST);
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+
+
+    }
     public static void init(){
         try {
             Display.setDisplayMode(new DisplayMode(640, 400));
@@ -130,17 +149,44 @@ public class ShitMinecraft {
         }
 
     }
-    //calls the logical functions, calculating look position, change in movement
-    //also calculates physics (eventually) and generally does all the heavy lifting
-    //most of this will be calls to other functions
+
     public static void menuRender() {
+        //2D rendering for menu
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        pushOrtho();
+        glBegin(GL_QUADS);
+        glColor3f(1f, 0f, 0f);
+        glVertex3f(-10f, 10f, 1f);
+        glVertex3f(10f, 10f, 1f);
+        glVertex3f(10f, -10f, 1f);
+        glVertex3f(-10f, -10f, 1f);
+        glEnd();
+
+
+        popOrtho();
+
+
 
     }
 
+    //paused key is index 0
     public static void pausedInput() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_P) && keyLifted[0]) {
             isPaused = !isPaused;
-            waitabit();
+
+        }
+        if (!Keyboard.isKeyDown(Keyboard.KEY_P)) {
+            keyLifted[0] = true;
+        } else {
+            keyLifted[0] = false;
+        }
+        if (Display.isCloseRequested()) {
+            closeRequested = true;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            closeRequested = true;
         }
     }
 
@@ -171,6 +217,7 @@ public class ShitMinecraft {
             nav = true;
 
         }
+
         if (Mouse.isButtonDown(0)) {
             //fire a projectile
             Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), .5f, 500, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z), new Vector3f(p.getXvec().x, p.getXvec().y, p.getXvec().z), new Vector3f(p.getYvec().x, p.getYvec().y, p.getYvec().z), p.getPitch(), p.getYaw());
@@ -179,12 +226,26 @@ public class ShitMinecraft {
             System.out.println("PROJECTILE FIRED");
 
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_P) && keyLifted[0]) {
             isPaused = !isPaused;
-            waitabit();
+
+        }
+        if (!Keyboard.isKeyDown(Keyboard.KEY_P)) {
+            keyLifted[0] = true;
+        } else {
+            keyLifted[0] = false;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            p.elevate(1);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            p.elevate(-1);
         }
     }
 
+    //calls the logical functions, calculating look position, change in movement
+    //also calculates physics (eventually) and generally does all the heavy lifting
+    //most of this will be calls to other functions
     public static void logic() {
         Display.sync(60);
         if (!isPaused) {
@@ -239,6 +300,7 @@ public class ShitMinecraft {
 
 
     }
+
 
     //self explanatory. update display, render out shapes etc.
     //will have two render modes, 2d and 3d, for the menus and the general world
