@@ -37,7 +37,7 @@ public class ShitMinecraft {
     public static void main(String[] args){
 		System.out.println("Hello Woldr");
         System.out.println("Reuben can't spell...");
-        System.out.println("Zach forgot a semicolon shitwankers");
+        System.out.println("Zach forgot a semicolon");
         
         run();
         cleanup();
@@ -184,6 +184,8 @@ public class ShitMinecraft {
         glVertex3f(10f, -10f, 1f);
         glVertex3f(-10f, -10f, 1f);
         glEnd();
+
+        Block.render(Mouse.getX(), Mouse.getY(), .2f, 10f, 1f);
 
 
         popOrtho();

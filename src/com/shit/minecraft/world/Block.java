@@ -22,84 +22,88 @@ public class Block {
     //must store location, mesh (at this point just a simple cube shape)
     //returns the AABB for the block
 
-    public Vector3f getLocation() {
-        return pos;
-    }
-
-    public AABB getAABB() {
-        return this.aaBB;
-    }
-    //iterate through points, return edge points
-
-    //needs to be retrofitted with an array of points, and an iterator.
-    public void render() {
+    public static void render(float x, float y, float z, float scale, float zscale) {
         //translate to location, render mesh
         // Front Face
         glPushMatrix();
-        glTranslatef(0 - pos.x, 0 - pos.y, 0 - pos.z);
+        glTranslatef(x, y, z);
         glBegin(GL_QUADS);
         glColor3f(0f, 0f, 1f);
-        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);   // Bottom Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, -1.0f * scale, 1.0f * zscale);   // Bottom Left Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, -1.0f, 1.0f);   // Bottom Right Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, -1.0f * scale, 1.0f * zscale);   // Bottom Right Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Right Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, 1.0f * scale, 1.0f * zscale);   // Top Right Of The Texture and Quad
 
-        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);   // Top Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, 1.0f * scale, 1.0f * zscale);   // Top Left Of The Texture and Quad
 
         // Back Face
         glColor3f(0f, 0f, 1f);
-        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, -1.0f * scale, -1.0f * zscale);   // Bottom Right Of The Texture and Quad
 
-        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);   // Top Right Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, 1.0f * scale, -1.0f * zscale);   // Top Right Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, 1.0f, -1.0f);   // Top Left Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, 1.0f * scale, -1.0f * zscale);   // Top Left Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, -1.0f * scale, -1.0f * zscale);   // Bottom Left Of The Texture and Quad
 
         // Top Face
         glColor3f(0f, 1f, 0f);
-        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);   // Top Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, 1.0f * scale, -1.0f * zscale);   // Top Left Of The Texture and Quad
 
-        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);   // Bottom Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, 1.0f * scale, 1.0f * zscale);   // Bottom Left Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, 1.0f, 1.0f);   // Bottom Right Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, 1.0f * scale, 1.0f * zscale);   // Bottom Right Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, 1.0f, -1.0f);   // Top Right Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, 1.0f * scale, -1.0f * zscale);   // Top Right Of The Texture and Quad
 
         // Bottom Face
         glColor3f(0f, 0f, 1f);
-        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Top Right Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, -1.0f * scale, -1.0f * zscale);   // Top Right Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, -1.0f, -1.0f);   // Top Left Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, -1.0f * scale, -1.0f * zscale);   // Top Left Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, -1.0f, 1.0f);   // Bottom Left Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, -1.0f * scale, 1.0f * zscale);   // Bottom Left Of The Texture and Quad
 
-        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);   // Bottom Right Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, -1.0f * scale, 1.0f * zscale);   // Bottom Right Of The Texture and Quad
 
         // Right face
         glColor3f(0f, 0f, 1f);
-        GL11.glVertex3f(1.0f, -1.0f, -1.0f);   // Bottom Right Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, -1.0f * scale, -1.0f * zscale);   // Bottom Right Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, 1.0f, -1.0f);   // Top Right Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, 1.0f * scale, -1.0f * zscale);   // Top Right Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, 1.0f, 1.0f);   // Top Left Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, 1.0f * scale, 1.0f * zscale);   // Top Left Of The Texture and Quad
 
-        GL11.glVertex3f(1.0f, -1.0f, 1.0f);   // Bottom Left Of The Texture and Quad
+        GL11.glVertex3f(1.0f * scale, -1.0f * scale, 1.0f * zscale);   // Bottom Left Of The Texture and Quad
 
         // Left Face
         glColor3f(0f, 0f, 1f);
-        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);   // Bottom Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, -1.0f * scale, -1.0f * zscale);   // Bottom Left Of The Texture and Quad
 
-        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);   // Bottom Right Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, -1.0f * scale, 1.0f * zscale);   // Bottom Right Of The Texture and Quad
 
-        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);   // Top Right Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, 1.0f * scale, 1.0f * zscale);   // Top Right Of The Texture and Quad
 
-        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);   // Top Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f * scale, 1.0f * scale, -1.0f * zscale);   // Top Left Of The Texture and Quad
         GL11.glEnd();
         glPopMatrix();
 
 
+    }
+
+    public Vector3f getLocation() {
+        return pos;
+    }
+    //iterate through points, return edge points
+
+    public AABB getAABB() {
+        return this.aaBB;
+    }
+
+    //needs to be retrofitted with an array of points, and an iterator.
+    public void render() {
+        this.render(pos.x, pos.y, pos.z, 10, 10);
     }
 
 
