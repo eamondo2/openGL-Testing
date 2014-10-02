@@ -10,7 +10,7 @@ Future Plans:
 
 -Finish camera control [CHECK MARK]
 
---implement collision code for player
+--implement collision code for player <---- DO THIS.
 
 -Make it NOT Shitty
 
