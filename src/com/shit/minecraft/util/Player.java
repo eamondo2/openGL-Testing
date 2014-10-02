@@ -45,7 +45,7 @@ public class Player {
 
     public void cPitch(float p) {
         this.pitch += p;
-        System.out.println("PITCH" + this.pitch);
+        //System.out.println("PITCH" + this.pitch);
         if (this.pitch < -85) {
             this.pitch = -85;
 

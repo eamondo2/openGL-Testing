@@ -1,6 +1,8 @@
 package com.shit.minecraft;
 
 import com.shit.minecraft.util.Player;
+import com.shit.minecraft.world.Block;
+import com.shit.minecraft.world.Map;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -22,8 +24,9 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class ShitMinecraft {
     public static boolean[] keyLifted = new boolean[256];
-
-
+    public static float time;
+    public static float delta;
+    public static float timescale = 1f;
     public static boolean closeRequested = false;
     public static boolean nav = false;
     public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -44,6 +47,23 @@ public class ShitMinecraft {
 
 	}
 
+    public static void deltaT() {
+        //newtime-oldtime
+        //delta*(whatever operation) = time scaled operation
+        float t = System.nanoTime();
+        delta = t - time;
+        time = t;
+        delta = delta / 100000000;
+        delta = delta * timescale;
+        System.out.println("DELTA" + delta);
+        System.out.println("SCALE" + timescale);
+
+
+    }
+
+    public static void changeTimeScale(float t) {
+        timescale = t;
+    }
     public static void cleanup() {
         Display.destroy();
     }
@@ -116,6 +136,8 @@ public class ShitMinecraft {
             //future updates
 
             Display.update();
+            //provides delta T between last frame and this one
+            deltaT();
             if (Display.isActive()) {
 
                 logic();
@@ -175,6 +197,7 @@ public class ShitMinecraft {
 
         if (Keyboard.isKeyDown(Keyboard.KEY_P) && keyLifted[0]) {
             isPaused = !isPaused;
+            Mouse.setGrabbed(true);
 
         }
         if (!Keyboard.isKeyDown(Keyboard.KEY_P)) {
@@ -202,16 +225,16 @@ public class ShitMinecraft {
             closeRequested = true;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            p.forward(-1);
+            p.forward(-1 * delta);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            p.forward(1);
+            p.forward(1 * delta);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            p.strafe(-1);
+            p.strafe(-1 * delta);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            p.strafe(1);
+            p.strafe(1 * delta);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_N)) {
             nav = true;
@@ -220,7 +243,7 @@ public class ShitMinecraft {
 
         if (Mouse.isButtonDown(0)) {
             //fire a projectile
-            Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), .5f, 500, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z), new Vector3f(p.getXvec().x, p.getXvec().y, p.getXvec().z), new Vector3f(p.getYvec().x, p.getYvec().y, p.getYvec().z), p.getPitch(), p.getYaw());
+            Projectile f = new Projectile(new Vector3f(p.getlook().x, p.getlook().y, p.getlook().z), .5f, 50000, new Vector3f(p.getPos().x, p.getPos().y, p.getPos().z), new Vector3f(p.getXvec().x, p.getXvec().y, p.getXvec().z), new Vector3f(p.getYvec().x, p.getYvec().y, p.getYvec().z), p.getPitch(), p.getYaw());
             //f.update();
             projectiles.add(f);
             System.out.println("PROJECTILE FIRED");
@@ -228,6 +251,7 @@ public class ShitMinecraft {
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_P) && keyLifted[0]) {
             isPaused = !isPaused;
+            Mouse.setGrabbed(false);
 
         }
         if (!Keyboard.isKeyDown(Keyboard.KEY_P)) {
@@ -236,10 +260,20 @@ public class ShitMinecraft {
             keyLifted[0] = false;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            p.elevate(1);
+            p.elevate(1 * delta);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            p.elevate(-1);
+            p.elevate(-1 * delta);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_L)) {
+
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_B) && !Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+            changeTimeScale(timescale - .05f);
+
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_B) && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+            changeTimeScale(timescale + .05f);
         }
     }
 
@@ -258,9 +292,6 @@ public class ShitMinecraft {
             menuLogic();
 
         }
-        //not important code
-        if (angle < 360) angle += 1f;
-        else angle = 0;
 
 
     }
@@ -316,17 +347,19 @@ public class ShitMinecraft {
         }
     }
     public static void render(){
+        //not important code
+        if (angle < 360) angle += 10f * (delta);
+        else angle = 0;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for (Projectile p : projectiles) {
             p.render();
         }
         navLine();
-        //glLoadIdentity();
+        Block b = new Block(new Vector3f(10f, 10f, 0f));
+        b.render();
+        Map m = new Map(1, 50, 50);
+        m.render();
 
-        //glTranslatef(0f, 0f, -10f);
-
-        //glRotatef(angle, 0f, 1f, 0f);
-        //glRotatef(angle, 1f, 0f, 0f);
 
         glPushMatrix();
         glTranslatef(0f, 0f, -20f);

@@ -112,9 +112,9 @@ public class Projectile {
 
         //System.out.println("LOOKPOS" + pos.x + " " + pos.y + " " + pos.z);
         //dir = dir.normalise(dir);
-        pos.x -= (dir.x * speed);
-        pos.y -= (dir.y * speed);
-        pos.z -= (dir.z * speed);
+        pos.x -= (dir.x * speed * ShitMinecraft.delta);
+        pos.y -= (dir.y * speed * ShitMinecraft.delta);
+        pos.z -= (dir.z * speed * ShitMinecraft.delta);
         counter++;
 
 
