@@ -1,9 +1,11 @@
 package com.shit.minecraft;
 
+import com.shit.minecraft.physics.rect;
 import com.shit.minecraft.util.Player;
 import com.shit.minecraft.world.Block;
 import com.shit.minecraft.world.Map;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -24,8 +26,8 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class ShitMinecraft {
     public static boolean[] keyLifted = new boolean[256];
-    public static float time;
-    public static float delta;
+    public static long time;
+    public static double delta;
     public static float timescale = 1f;
     public static boolean closeRequested = false;
     public static boolean nav = false;
@@ -34,11 +36,17 @@ public class ShitMinecraft {
     public static float angle = 0f;
     public static Player p = new Player(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 0f, 0f), new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f), 0f, 0f, new Vector3f(-5f, 10f, -10f), new Vector3f(-5f, 10f, 0f));
     public static boolean isPaused = false;
+    public static rect r;
     public static void main(String[] args){
 		System.out.println("Hello Woldr");
         System.out.println("Reuben can't spell...");
         System.out.println("Zach forgot a semicolon");
-        
+
+        Vector3f v = new Vector3f(1f, 1f, 0f);
+        v = normalize(v);
+        System.out.println("NORM" + v);
+
+
         run();
         cleanup();
 
@@ -47,13 +55,19 @@ public class ShitMinecraft {
 
 	}
 
+    public static Vector3f normalize(Vector3f a) {
+        float mag = a.x + a.y + a.z;
+        Vector3f returnVec = new Vector3f(a.x / mag, a.y / mag, a.z / mag);
+        return returnVec;
+
+    }
     public static void deltaT() {
         //newtime-oldtime
         //delta*(whatever operation) = time scaled operation
-        float t = System.nanoTime();
+        long t = Sys.getTime() * 1000;
+        t /= Sys.getTimerResolution();
         delta = t - time;
         time = t;
-        delta = delta / 100000000;
         delta = delta * timescale;
         System.out.println("DELTA" + delta);
         System.out.println("SCALE" + timescale);
@@ -83,6 +97,12 @@ public class ShitMinecraft {
         glDepthFunc(GL_LEQUAL);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
         glTranslatef(0f, 0f, -10f);
+        Vector3f[] verts = new Vector3f[4];
+        verts[0] = new Vector3f(-10f, 10f, 1f);
+        verts[1] = new Vector3f(10f, 10f, 1f);
+        verts[2] = new Vector3f(10f, -10f, 1f);
+        verts[3] = new Vector3f(-10f, -10f, 1f);
+        r = new rect(new Vector3f(0f, 0f, 0f), 15f, verts, new Vector3f(.5f, .5f, 0f), 10f);
 
 
     }
@@ -177,15 +197,10 @@ public class ShitMinecraft {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         pushOrtho();
-        glBegin(GL_QUADS);
-        glColor3f(1f, 0f, 0f);
-        glVertex3f(-10f, 10f, 1f);
-        glVertex3f(10f, 10f, 1f);
-        glVertex3f(10f, -10f, 1f);
-        glVertex3f(-10f, -10f, 1f);
-        glEnd();
 
-        Block.render(Mouse.getX(), Mouse.getY(), .2f, 10f, 1f);
+
+        r.update();
+        r.render();
 
 
         popOrtho();
@@ -227,16 +242,16 @@ public class ShitMinecraft {
             closeRequested = true;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            p.forward(-1 * delta);
+            p.forward((float) (-1 * delta));
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            p.forward(1 * delta);
+            p.forward((float) (1 * delta));
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            p.strafe(-1 * delta);
+            p.strafe((float) (-1 * delta));
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            p.strafe(1 * delta);
+            p.strafe((float) (1 * delta));
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_N)) {
             nav = true;
@@ -262,20 +277,20 @@ public class ShitMinecraft {
             keyLifted[0] = false;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            p.elevate(1 * delta);
+            p.elevate((float) (1 * delta));
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            p.elevate(-1 * delta);
+            p.elevate((float) (-1 * delta));
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_L)) {
 
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_B) && !Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-            changeTimeScale(timescale - .05f);
+            changeTimeScale(timescale - .005f);
 
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_B) && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-            changeTimeScale(timescale + .05f);
+            changeTimeScale(timescale + .005f);
         }
     }
 
