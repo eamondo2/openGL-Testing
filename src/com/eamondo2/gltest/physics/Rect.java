@@ -1,6 +1,6 @@
-package com.shit.minecraft.physics;
+package com.eamondo2.gltest.physics;
 
-import com.shit.minecraft.ShitMinecraft;
+import com.eamondo2.gltest.GlTest;
 import org.lwjgl.util.vector.Vector3f;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by eamondo2 on 10/2/14.
  */
-public class rect {
+public class Rect {
     //temp class for rectangular static body, 2d
     public Vector3f[] verts = new Vector3f[4];
     public Vector3f pos;
@@ -19,7 +19,7 @@ public class rect {
     public float g = 9.80665f;
     public Vector3f gDir = new Vector3f(0f, 1f, 0f);
 
-    public rect(Vector3f posin, float massin, Vector3f[] vertsin, Vector3f uVdirin, float vin) {
+    public Rect(Vector3f posin, float massin, Vector3f[] vertsin, Vector3f uVdirin, float vin) {
         this.mass = massin;
         this.verts = vertsin;
         this.uVdir = uVdirin;
@@ -59,7 +59,7 @@ public class rect {
 
     public void update() {
         //calculate change in position due to V and vdir
-        uVdir = ShitMinecraft.normalize(uVdir);
+        uVdir = GlTest.normalize(uVdir);
         System.out.println("UVDIR" + uVdir);
         //calculate acceleration
         //f = m*a
@@ -77,7 +77,7 @@ public class rect {
         pos.z += (NewtVdir.z / mass);
         System.out.println("Position" + pos);
 
-        uVdir = ShitMinecraft.normalize(uVdir);
+        uVdir = GlTest.normalize(uVdir);
 
 
     }

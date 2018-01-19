@@ -1,4 +1,4 @@
-package com.shit.minecraft.util;
+package com.eamondo2.gltest.util;
 
 import org.lwjgl.util.vector.Vector3f;
 

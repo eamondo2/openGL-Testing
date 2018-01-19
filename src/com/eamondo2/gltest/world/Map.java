@@ -1,4 +1,4 @@
-package com.shit.minecraft.world;
+package com.eamondo2.gltest.world;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
@@ -13,7 +13,7 @@ public class Map {
     private static int width;
     private static int depth;
     //needs to have an array of blocks.
-    //should it be chunks like minecraft? or some other method?
+    //should it be chunks like gltest? or some other method?
     //chunk based works best, as you can update chunks in a radius around the player
     //adds for more efficiency
     /*

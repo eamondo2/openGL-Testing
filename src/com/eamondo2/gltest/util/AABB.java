@@ -1,4 +1,4 @@
-package com.shit.minecraft.util;
+package com.eamondo2.gltest.util;
 
 /**
  * Created by eamondo2 on 9/26/14.

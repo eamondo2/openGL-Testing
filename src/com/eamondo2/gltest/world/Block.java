@@ -1,6 +1,6 @@
-package com.shit.minecraft.world;
+package com.eamondo2.gltest.world;
 
-import com.shit.minecraft.util.AABB;
+import com.eamondo2.gltest.util.AABB;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 

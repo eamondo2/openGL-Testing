@@ -1,4 +1,4 @@
-package com.shit.minecraft;
+package com.eamondo2.gltest;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
@@ -112,9 +112,9 @@ public class Projectile {
 
         //System.out.println("LOOKPOS" + pos.x + " " + pos.y + " " + pos.z);
         //dir = dir.normalise(dir);
-        pos.x -= (dir.x * speed * ShitMinecraft.delta);
-        pos.y -= (dir.y * speed * ShitMinecraft.delta);
-        pos.z -= (dir.z * speed * ShitMinecraft.delta);
+        pos.x -= (dir.x * speed * GlTest.delta);
+        pos.y -= (dir.y * speed * GlTest.delta);
+        pos.z -= (dir.z * speed * GlTest.delta);
         counter++;
 
 

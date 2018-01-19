@@ -1,9 +1,9 @@
-package com.shit.minecraft;
+package com.eamondo2.gltest;
 
-import com.shit.minecraft.physics.rect;
-import com.shit.minecraft.util.Player;
-import com.shit.minecraft.world.Block;
-import com.shit.minecraft.world.Map;
+import com.eamondo2.gltest.physics.Rect;
+import com.eamondo2.gltest.util.Player;
+import com.eamondo2.gltest.world.Block;
+import com.eamondo2.gltest.world.Map;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -24,7 +24,7 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  * credit to Eamon, Adam, REUBEN, Zach
  *
  */
-public class ShitMinecraft {
+public class GlTest {
     public static boolean[] keyLifted = new boolean[256];
     public static long time;
     public static double delta;
@@ -36,7 +36,7 @@ public class ShitMinecraft {
     public static float angle = 0f;
     public static Player p = new Player(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 0f, 0f), new Vector3f(0f, 1f, 0f), new Vector3f(0f, 0f, 1f), 0f, 0f, new Vector3f(-5f, 10f, -10f), new Vector3f(-5f, 10f, 0f));
     public static boolean isPaused = false;
-    public static rect r;
+    public static Rect r;
     public static void main(String[] args){
 		System.out.println("Hello Woldr");
         System.out.println("Reuben can't spell...");
@@ -102,7 +102,7 @@ public class ShitMinecraft {
         verts[1] = new Vector3f(10f, 10f, 1f);
         verts[2] = new Vector3f(10f, -10f, 1f);
         verts[3] = new Vector3f(-10f, -10f, 1f);
-        r = new rect(new Vector3f(0f, 0f, 0f), 15f, verts, new Vector3f(.5f, .5f, 0f), 10f);
+        r = new Rect(new Vector3f(0f, 0f, 0f), 15f, verts, new Vector3f(.5f, .5f, 0f), 10f);
 
 
     }
@@ -132,7 +132,7 @@ public class ShitMinecraft {
     public static void init(){
         try {
             Display.setDisplayMode(new DisplayMode(640, 400));
-            Display.setTitle("ShittyMinecraft");
+            Display.setTitle("glTest");
 
             Display.create();
             Mouse.setGrabbed(true);
